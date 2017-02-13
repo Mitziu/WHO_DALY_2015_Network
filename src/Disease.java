@@ -1,10 +1,6 @@
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Created by Mitziu on 2/12/17.
- */
 public class Disease {
 
     private String type;
