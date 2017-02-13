@@ -2,13 +2,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class CountryNetwork {
 
     private Map<String, Map<String, List<Disease>>> countryNetwork;
 
     public CountryNetwork () {
-        countryNetwork = new HashMap<>();
+        countryNetwork = new TreeMap<>();
     }
 
     public void addConnection (String countryA, String countryB, Disease disease) {
@@ -18,8 +19,8 @@ public class CountryNetwork {
 
     private void addToNetwork (String A, String B, Disease disease) {
         if (countryNetwork.containsKey(A)) {
-            if (countryNetwork.containsKey(B)) {
-                countryNetwork.get(A).get(B).add(disease);
+            if (countryNetwork.get(A).containsKey(B)) {
+                    countryNetwork.get(A).get(B).add(disease);
             } else {
                 countryNetwork.get(A).put(B, new ArrayList<>());
                 countryNetwork.get(A).get(B).add(disease);
@@ -31,6 +32,13 @@ public class CountryNetwork {
         }
     }
 
+    public void displayNetwork () {
+
+
+
+
+    }
+
     public static void main(String[] args) {
         CountryNetwork countryNetwork = new CountryNetwork();
         Disease a = new Disease("Type","SubType","Specific","Name");
@@ -38,4 +46,5 @@ public class CountryNetwork {
         countryNetwork.addConnection("USA", "Canada", a);
         System.out.println("");
     }
+
 }

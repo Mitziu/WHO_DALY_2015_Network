@@ -19,6 +19,10 @@ public class Disease {
         burdenByCountry = new TreeMap<>();
     }
 
+    public String getName () {
+        return this.nameOfDisease;
+    }
+
     public void putBurden (String country, Double value) {
         burdenByCountry.put(country, value);
     }
