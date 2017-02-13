@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Mitziu on 2/12/17.
- */
 public class Main {
 
     public static List<Disease> diseases;
