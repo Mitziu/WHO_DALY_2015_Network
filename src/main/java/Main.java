@@ -12,7 +12,6 @@ public class Main {
     public static List<Country> countryInformation;
     public static CountryNetwork countryNetwork;
 
-    //public static final String FILE_NAME = "WHODALEY2015_CLEANUP.csv";
     public static String FILE_NAME;
     public static Double COSINE_VALUE;
 
