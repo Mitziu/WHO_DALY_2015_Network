@@ -19,12 +19,9 @@ import java.io.Writer;
 public class CountryNetwork {
 
     UndirectedGraph graph;
-    //JGraphModelAdapter adapter;
 
     public CountryNetwork() {
         graph = new ListenableUndirectedGraph(DefaultEdge.class);
-        //adapter = new JGraphModelAdapter(graph);
-
     }
 
     public void addEdge (String countryA, String countryB) {
@@ -33,21 +30,8 @@ public class CountryNetwork {
         graph.addEdge(countryA, countryB);
     }
 
-    public void displayGraph (String output_file) {
+    public void generateGMLFile(String output_file) {
         System.out.println(graph.toString());
-
-//        JFrame frame = new JFrame();
-//        frame.setSize(400 , 400);
-//        JGraph jGraph = new JGraph(new JGraphModelAdapter(graph));
-//        frame.getContentPane().add(jGraph);
-//        frame.setVisible(true);
-//        while(true) {
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
 
         GmlExporter gmlExporter = new GmlExporter();
         gmlExporter.setPrintLabels(GmlExporter.PRINT_VERTEX_LABELS);

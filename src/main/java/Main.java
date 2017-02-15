@@ -25,7 +25,7 @@ public class Main {
         readFile();
         System.out.println("");
         createCountryNetwork();
-        countryNetwork.displayGraph(OUTOUT_FILE_NAME);
+        countryNetwork.generateGMLFile(OUTOUT_FILE_NAME);
 
     }
 
