@@ -29,6 +29,9 @@ public class Main {
 
     }
 
+    /**
+     * Users from input
+     */
     public static void getInput () {
         Scanner scanner = new Scanner(System.in);
         System.out.print("File Name: ");
@@ -38,6 +41,9 @@ public class Main {
         COSINE_VALUE = scanner.nextDouble();
     }
 
+    /**
+     * Reads the file and loads the countryInformation
+     */
     public static void readFile () {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
             loadCountries(splitLine(br.readLine()));
@@ -68,12 +74,19 @@ public class Main {
         }
     }
 
+    /**
+     * Loads the disease information into the Countries
+     * @param diseaseInfo
+     */
     public static void loadDiseases (String[] diseaseInfo) {
         for(int i = 4; i < diseaseInfo.length; i++) {
             countryInformation.get(i - 4).addDisease(diseaseInfo[3], Double.valueOf(diseaseInfo[i]));
         }
     }
 
+    /**
+     * Creates the country network
+     */
     private static void createCountryNetwork () {
         for(int i = 0; i < countryInformation.size(); i++) {
             for(int j = i + 1; j < countryInformation.size(); j++) {
@@ -84,6 +97,12 @@ public class Main {
         }
     }
 
+    /**
+     * Cosine value of A and B
+     * @param A Country A
+     * @param B Country B
+     * @return Cosine Value of A & B
+     */
     private static Double getCosineSimilarity (Country A, Country B) {
         Double sqrtDenA = 0.0;
         Double sqrtDenB = 0.0;
