@@ -5,25 +5,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
 
     public static List<Country> countryInformation;
     public static CountryNetwork countryNetwork;
 
-    public static final String FILE_NAME = "WHODALEY2015_CLEANUP.csv";
-
+    //public static final String FILE_NAME = "WHODALEY2015_CLEANUP.csv";
+    public static String FILE_NAME;
+    public static Double COSINE_VALUE;
 
 
     public static void main(String[] args) {
+        getInput();
+
         countryInformation = new ArrayList<>();
         countryNetwork = new CountryNetwork();
-
         readFile();
         System.out.println("");
         createCountryNetwork();
         countryNetwork.displayGraph();
 
+    }
+
+    public static void getInput () {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("File Name: ");
+        FILE_NAME = scanner.nextLine();
+
+        System.out.print("Cosine Value: ");
+        COSINE_VALUE = scanner.nextDouble();
     }
 
     public static void readFile () {
@@ -65,7 +77,7 @@ public class Main {
     private static void createCountryNetwork () {
         for(int i = 0; i < countryInformation.size(); i++) {
             for(int j = i + 1; j < countryInformation.size(); j++) {
-                if(getCosineSimilarity(countryInformation.get(i), countryInformation.get(j)) > 0.97) {
+                if(getCosineSimilarity(countryInformation.get(i), countryInformation.get(j)) > COSINE_VALUE) {
                     countryNetwork.addEdge(countryInformation.get(i).getNAME(), countryInformation.get(j).getNAME());
                 }
             }
