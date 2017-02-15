@@ -5,26 +5,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Main {
 
-    public static List<Disease> diseases;
-    public static List<String> countries;
-    public static CountryNetwork countryNetwork = new CountryNetwork();
+    public static List<Country> countryInformation;
+    public static CountryNetwork countryNetwork;
 
     public static final String FILE_NAME = "WHODALEY2015_CLEANUP.csv";
 
 
 
     public static void main(String[] args) {
-        diseases = new ArrayList<>();
-        countries = new ArrayList<>();
+        countryInformation = new ArrayList<>();
         countryNetwork = new CountryNetwork();
 
         readFile();
-        loadCountryNetwork();
         System.out.println("");
+        createCountryNetwork();
+        countryNetwork.displayGraph();
+
     }
 
     public static void readFile () {
@@ -52,50 +51,42 @@ public class Main {
         Integer index = 0;
         for(String country: countriesArray) {
             if (country.isEmpty()) continue;
-
-            countries.add(index++, country);
+            countryInformation.add(index, new Country(country));
+            index++;
         }
     }
 
     public static void loadDiseases (String[] diseaseInfo) {
-        Disease disease = new Disease(diseaseInfo[0], diseaseInfo[1], diseaseInfo[2], diseaseInfo[3]);
-
         for(int i = 4; i < diseaseInfo.length; i++) {
-            disease.putBurden(countries.get(i - 4), Double.valueOf(diseaseInfo[i]));
+            countryInformation.get(i - 4).addDisease(diseaseInfo[3], Double.valueOf(diseaseInfo[i]));
         }
-
-        diseases.add(disease);
     }
 
-    public static void loadCountryNetwork () {
-
-        diseases.stream()
-                .forEachOrdered(disease -> addDiseaseToNetwork(disease));
-
-    }
-
-    private static void addDiseaseToNetwork (Disease disease) {
-        List<String> collected = disease.getAllCountries().entrySet()
-                .stream()
-                .filter(entry -> (Double) entry.getValue() > Double.valueOf(100.0 / diseases.size()))
-                .map(map -> map.getKey())
-                .collect(Collectors.toList());
-
-        if(collected.size() < 2) {
-            return;
-        }
-
-        for(int i = 0; i < collected.size(); i++) {
-
-            for(int j = i + 1; j < collected.size(); j++) {
-
-                countryNetwork.addConnection(collected.get(i), collected.get(j), disease);
-
+    private static void createCountryNetwork () {
+        for(int i = 0; i < countryInformation.size(); i++) {
+            for(int j = i + 1; j < countryInformation.size(); j++) {
+                if(getCosineSimilarity(countryInformation.get(i), countryInformation.get(j)) > 0.97) {
+                    countryNetwork.addEdge(countryInformation.get(i).getNAME(), countryInformation.get(j).getNAME());
+                }
             }
-
         }
     }
 
+    private static Double getCosineSimilarity (Country A, Country B) {
+        Double sqrtDenA = 0.0;
+        Double sqrtDenB = 0.0;
+        Double numerator = 0.0;
+        for(Map.Entry<String, Double> set : A.getAllBurden().entrySet()) {
+            Double a = A.getBurden(set.getKey());
+            Double b = B.getBurden(set.getKey());
+
+            numerator += (a * b);
+            sqrtDenA += Math.pow(a, 2);
+            sqrtDenB += Math.pow(b, 2);
+        }
+
+        return ((numerator)/(Math.sqrt(sqrtDenA) * Math.sqrt(sqrtDenB)));
+    }
 
     /**
      * Splits the line by commas while avoiding commas in between quotes
