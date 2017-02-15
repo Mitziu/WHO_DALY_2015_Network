@@ -38,6 +38,7 @@ public class Main {
 
         System.out.print("Cosine Value: ");
         COSINE_VALUE = scanner.nextDouble();
+        scanner.close();
     }
 
     /**
