@@ -12,7 +12,7 @@ public class Main {
     public static List<Country> countryInformation;
     public static CountryNetwork countryNetwork;
 
-    public static String FILE_NAME;
+    public static String FILE_NAME = "WHO.csv";
     public static Double COSINE_VALUE;
 
 
@@ -33,9 +33,6 @@ public class Main {
      */
     public static void getInput () {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("File Name: ");
-        FILE_NAME = scanner.nextLine();
-
         System.out.print("Cosine Value: ");
         COSINE_VALUE = scanner.nextDouble();
         scanner.close();
