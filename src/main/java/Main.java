@@ -13,6 +13,7 @@ public class Main {
     public static CountryNetwork countryNetwork;
 
     public static String FILE_NAME = "WHO.csv";
+    public static String OUTOUT_FILE_NAME;
     public static Double COSINE_VALUE;
 
 
@@ -24,7 +25,7 @@ public class Main {
         readFile();
         System.out.println("");
         createCountryNetwork();
-        countryNetwork.displayGraph();
+        countryNetwork.displayGraph(OUTOUT_FILE_NAME);
 
     }
 
@@ -33,8 +34,14 @@ public class Main {
      */
     public static void getInput () {
         Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Output File: (NO GML EXTENSION)");
+        OUTOUT_FILE_NAME = scanner.nextLine();
+
         System.out.print("Cosine Value: ");
         COSINE_VALUE = scanner.nextDouble();
+
+
         scanner.close();
     }
 
