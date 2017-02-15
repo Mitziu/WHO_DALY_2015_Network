@@ -30,7 +30,7 @@ public class Main {
     }
 
     /**
-     * Users from input
+     * Input from Users
      */
     public static void getInput () {
         Scanner scanner = new Scanner(System.in);
