@@ -74,6 +74,7 @@ public class Main {
         for(String country: countriesArray) {
             if (country.isEmpty()) continue;
             countryInformation.add(index, new Country(country));
+            countryNetwork.addVertex(country);
             index++;
         }
     }

@@ -24,6 +24,10 @@ public class CountryNetwork {
         graph = new ListenableUndirectedGraph(DefaultEdge.class);
     }
 
+    public void addVertex(String Country) {
+        graph.addVertex(Country);
+    }
+
     public void addEdge (String countryA, String countryB) {
         graph.addVertex(countryA);
         graph.addVertex(countryB);
@@ -35,6 +39,9 @@ public class CountryNetwork {
 
         GmlExporter gmlExporter = new GmlExporter();
         gmlExporter.setPrintLabels(GmlExporter.PRINT_VERTEX_LABELS);
+
+
+
         Writer fileWriter = null;
         try {
             fileWriter = new BufferedWriter(new FileWriter(((output_file + ".gml"))));

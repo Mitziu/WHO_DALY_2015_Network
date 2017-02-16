@@ -24,6 +24,13 @@
             <artifactId>jgrapht-ext</artifactId>
             <version>0.9.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.systemdir.gml</groupId>
+            <artifactId>GMLWriterForYed</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 
     
