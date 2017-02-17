@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Main {
+public class NetworkCreator {
 
     public static List<Country> countryInformation;
     public static CountryNetwork countryNetwork;
 
     public static String FILE_NAME = "WHO.csv";
     public static String OUTOUT_FILE_NAME;
-    public static Double COSINE_VALUE;
+    public static Double COSINE_SIMILARITY;
 
 
     public static void main(String[] args) {
@@ -26,7 +26,6 @@ public class Main {
         System.out.println("");
         createCountryNetwork();
         countryNetwork.generateGMLFile(OUTOUT_FILE_NAME);
-
     }
 
     /**
@@ -38,8 +37,8 @@ public class Main {
         System.out.print("Output File: (NO GML EXTENSION)");
         OUTOUT_FILE_NAME = scanner.nextLine();
 
-        System.out.print("Cosine Value: ");
-        COSINE_VALUE = scanner.nextDouble();
+        System.out.print("Cosine Similarity Value: ");
+        COSINE_SIMILARITY = scanner.nextDouble();
 
 
         scanner.close();
@@ -95,7 +94,7 @@ public class Main {
     private static void createCountryNetwork () {
         for(int i = 0; i < countryInformation.size(); i++) {
             for(int j = i + 1; j < countryInformation.size(); j++) {
-                if(getCosineSimilarity(countryInformation.get(i), countryInformation.get(j)) > COSINE_VALUE) {
+                if((getCosineSimilarity(countryInformation.get(i), countryInformation.get(j))) >= COSINE_SIMILARITY) {
                     countryNetwork.addEdge(countryInformation.get(i).getNAME(), countryInformation.get(j).getNAME());
                 }
             }

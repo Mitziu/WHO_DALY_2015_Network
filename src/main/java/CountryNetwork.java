@@ -12,6 +12,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by Mitziu on 2/14/17.
@@ -35,12 +37,23 @@ public class CountryNetwork {
     }
 
     public void generateGMLFile(String output_file) {
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
+
+        Set<DefaultEdge> edges = graph.edgeSet();
+
+
+        Iterator<DefaultEdge> iterator = edges.iterator();
+//
+//        while(iterator.hasNext()) {
+//            iterator.next().toString();
+//        }
+
+        System.out.println(iterator.next().toString());
+
+        System.out.println("Exporting to gml file...");
 
         GmlExporter gmlExporter = new GmlExporter();
         gmlExporter.setPrintLabels(GmlExporter.PRINT_VERTEX_LABELS);
-
-
 
         Writer fileWriter = null;
         try {
@@ -50,6 +63,8 @@ public class CountryNetwork {
         }
 
         gmlExporter.export(fileWriter, graph);
+
+        System.out.println("Exported to gml file");
 
     }
 
