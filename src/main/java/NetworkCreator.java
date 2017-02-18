@@ -11,6 +11,9 @@ public class NetworkCreator {
 
     public static List<Country> countryInformation;
     public static CountryNetwork countryNetwork;
+    public static GeographicalInformation geographicalInformation;
+
+    public static GraphValidator graphValidator;
 
     public static String FILE_NAME = "WHO.csv";
     public static String OUTOUT_FILE_NAME;
@@ -24,8 +27,13 @@ public class NetworkCreator {
         countryNetwork = new CountryNetwork();
         readFile();
         System.out.println("");
+
         createCountryNetwork();
         countryNetwork.generateGMLFile(OUTOUT_FILE_NAME);
+
+        geographicalInformation = new GeographicalInformation();
+
+        graphValidator = new GraphValidator(geographicalInformation, countryNetwork.getEdges());
     }
 
     /**

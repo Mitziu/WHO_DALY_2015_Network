@@ -5,7 +5,10 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.ext.GmlExporter;
 import org.jgrapht.ext.JGraphModelAdapter;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.ListenableUndirectedGraph;
+import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
+import org.jgrapht.graph.SimpleWeightedGraph;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
@@ -23,7 +26,9 @@ public class CountryNetwork {
     UndirectedGraph graph;
 
     public CountryNetwork() {
-        graph = new ListenableUndirectedGraph(DefaultEdge.class);
+        //graph = new ListenableUndirectedGraph(DefaultEdge.class);
+        //graph = new ListenableUndirectedWeightedGraph(DefaultWeightedEdge.class);
+        graph = new SimpleWeightedGraph(DefaultEdge.class);
     }
 
     public void addVertex(String Country) {
@@ -34,23 +39,11 @@ public class CountryNetwork {
         graph.addVertex(countryA);
         graph.addVertex(countryB);
         graph.addEdge(countryA, countryB);
+        //graph.addEdge(countryA, countryB, 1.0);
+
     }
 
     public void generateGMLFile(String output_file) {
-        //System.out.println(graph.toString());
-
-        Set<DefaultEdge> edges = graph.edgeSet();
-
-
-        Iterator<DefaultEdge> iterator = edges.iterator();
-//
-//        while(iterator.hasNext()) {
-//            iterator.next().toString();
-//        }
-
-        System.out.println(iterator.next().toString());
-
-        System.out.println("Exporting to gml file...");
 
         GmlExporter gmlExporter = new GmlExporter();
         gmlExporter.setPrintLabels(GmlExporter.PRINT_VERTEX_LABELS);
@@ -68,4 +61,26 @@ public class CountryNetwork {
 
     }
 
+    public Set<DefaultEdge> getEdges () {
+        return graph.edgeSet();
+    }
+
+    public Double weight(DefaultWeightedEdge e) {
+        return graph.getEdgeWeight(e);
+    }
+
+    public static void main(String[] args) {
+        UndirectedGraph g = new ListenableUndirectedWeightedGraph(DefaultWeightedEdge.class);
+        g.addVertex("A");
+        g.addVertex("b");
+        g.addEdge("A","b",1.0);
+        g.addEdge("A", "b");
+
+        Set<Double> e = g.getAllEdges("A", "b");
+        g.getAllEdges("A","c");
+
+        System.out.println(e);
+
+        System.out.println(g.toString());
+    }
 }
