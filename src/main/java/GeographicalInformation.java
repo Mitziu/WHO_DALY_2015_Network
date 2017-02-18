@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -10,11 +12,12 @@ public class GeographicalInformation {
 
     private Map<String, String> continentInformation;
     private Map<String, String> regionInformation;
-
+    private List<String> countries;
 
     public GeographicalInformation() {
         continentInformation = new HashMap<>();
         regionInformation = new HashMap<>();
+        countries = new ArrayList<>();
 
         try(BufferedReader br = new BufferedReader(new FileReader("all.csv"))) {
             String line;
@@ -27,7 +30,7 @@ public class GeographicalInformation {
 
                 continentInformation.put(countryName, continent);
                 regionInformation.put(countryName, region);
-
+                countries.add(countryName);
             }
 
         } catch (FileNotFoundException e) {
@@ -42,8 +45,11 @@ public class GeographicalInformation {
         if (countryName.equals("Côte d'Ivoire")) {
             return "Africa";
         }
-
         return continentInformation.get(countryName);
+    }
+
+    public List<String> getAllCountries () {
+        return this.countries;
     }
 
     public String getRegion (String countryName) {

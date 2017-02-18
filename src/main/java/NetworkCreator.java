@@ -33,7 +33,7 @@ public class NetworkCreator {
 
         geographicalInformation = new GeographicalInformation();
 
-        graphValidator = new GraphValidator(geographicalInformation, countryNetwork.getEdges());
+        graphValidator = new GraphValidator(geographicalInformation, countryNetwork, countryInformation);
     }
 
     /**
@@ -102,8 +102,11 @@ public class NetworkCreator {
     private static void createCountryNetwork () {
         for(int i = 0; i < countryInformation.size(); i++) {
             for(int j = i + 1; j < countryInformation.size(); j++) {
-                if((getCosineSimilarity(countryInformation.get(i), countryInformation.get(j))) >= COSINE_SIMILARITY) {
-                    countryNetwork.addEdge(countryInformation.get(i).getNAME(), countryInformation.get(j).getNAME());
+                Country countryA = countryInformation.get(i);
+                Country countryB = countryInformation.get(j);
+                Double cosineSimilarity = getCosineSimilarity(countryA, countryB);
+                if (cosineSimilarity >= COSINE_SIMILARITY) {
+                    countryNetwork.addEdge(countryA.getNAME(), countryB.getNAME(), (1.0 - cosineSimilarity));
                 }
             }
         }

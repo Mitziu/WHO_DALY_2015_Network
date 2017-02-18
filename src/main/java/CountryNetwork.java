@@ -26,8 +26,6 @@ public class CountryNetwork {
     UndirectedGraph graph;
 
     public CountryNetwork() {
-        //graph = new ListenableUndirectedGraph(DefaultEdge.class);
-        //graph = new ListenableUndirectedWeightedGraph(DefaultWeightedEdge.class);
         graph = new SimpleWeightedGraph(DefaultEdge.class);
     }
 
@@ -35,12 +33,10 @@ public class CountryNetwork {
         graph.addVertex(Country);
     }
 
-    public void addEdge (String countryA, String countryB) {
+    public void addEdge (String countryA, String countryB, Double distance) {
         graph.addVertex(countryA);
         graph.addVertex(countryB);
-        graph.addEdge(countryA, countryB);
-        //graph.addEdge(countryA, countryB, 1.0);
-
+        graph.addEdge(countryA, countryB, distance);
     }
 
     public void generateGMLFile(String output_file) {
@@ -61,26 +57,7 @@ public class CountryNetwork {
 
     }
 
-    public Set<DefaultEdge> getEdges () {
-        return graph.edgeSet();
-    }
-
-    public Double weight(DefaultWeightedEdge e) {
-        return graph.getEdgeWeight(e);
-    }
-
-    public static void main(String[] args) {
-        UndirectedGraph g = new ListenableUndirectedWeightedGraph(DefaultWeightedEdge.class);
-        g.addVertex("A");
-        g.addVertex("b");
-        g.addEdge("A","b",1.0);
-        g.addEdge("A", "b");
-
-        Set<Double> e = g.getAllEdges("A", "b");
-        g.getAllEdges("A","c");
-
-        System.out.println(e);
-
-        System.out.println(g.toString());
+    public Set<Double> getEdges (String CountryA, String CountryB) {
+        return graph.getAllEdges(CountryA, CountryB);
     }
 }
