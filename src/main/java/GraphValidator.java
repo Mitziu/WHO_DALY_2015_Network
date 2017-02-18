@@ -1,6 +1,13 @@
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultWeightedEdge;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +69,75 @@ public class GraphValidator {
             System.out.println("\t\tRatio (WITHIN / OUTSIDE) : " + dc.format(entry.getValue().getRatio()));
         }
 
+        displayResults();
+    }
+
+    public void displayResults () {
+
+        JFreeChart barChartRegions = ChartFactory.createBarChart(
+                "Comparison By Regions",
+                "Regions",
+                "Average Distance",
+                createRegionDataset(),
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
+        int width = 1980;
+        int height = 1020;
+        File BarChartRegions = new File("Regions.jpeg");
+        try {
+            ChartUtilities.saveChartAsJPEG(BarChartRegions, barChartRegions, width, height);
+            System.out.println("Saved Image");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JFreeChart barChartContinents = ChartFactory.createBarChart(
+                "Comparison By Continent",
+                "Continents",
+                "Average Distance",
+                createContinentDataset(),
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
+        File BarChartContinents = new File("Continents.jpeg");
+        try {
+            ChartUtilities.saveChartAsJPEG(BarChartContinents, barChartContinents, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private CategoryDataset createRegionDataset() {
+        final String withIn = "Within Group";
+        final String outside = "Outside Group";
+        //final String ratio = "Ratio";
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for(Map.Entry<String, EdgeCounter> entry: mapByRegions.entrySet()) {
+            dataset.addValue(entry.getValue().getAverageWithIn(), withIn, entry.getKey());
+            dataset.addValue(entry.getValue().getAverageOutside(), outside, entry.getKey());
+            //dataset.addValue(entry.getValue().getRatio(), ratio, entry.getKey());
+        }
+
+        return dataset;
+    }
+
+    private CategoryDataset createContinentDataset() {
+        final String withIn = "Within Group";
+        final String outside = "Outside Group";
+        //final String ratio = "Ratio";
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for(Map.Entry<String, EdgeCounter> entry: mapByContinents.entrySet()) {
+            dataset.addValue(entry.getValue().getAverageWithIn(), withIn, entry.getKey());
+            dataset.addValue(entry.getValue().getAverageOutside(), outside, entry.getKey());
+            //dataset.addValue(entry.getValue().getRatio(), ratio, entry.getKey());
+        }
+
+        return dataset;
     }
 
     private void addEdge (String countryA, String countryB, Set<Double> edges) {
